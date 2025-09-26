@@ -1,5 +1,5 @@
-**Proyecto Ingeniería Web
-*Integrantes:
-Matías Altamirano
-André Limarí
-Bastián Jorquera
+<em>Proyecto Ingeniería Web</em><br>
+Integrantes:<br>
+-Matías Altamirano<br>
+-André Limarí<br>
+-Bastián Jorquera<br>
