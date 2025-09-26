@@ -1,0 +1,239 @@
+.carrito-contenido {
+  padding: 16px;
+
+  .resumen-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    ion-card-header {
+      padding-bottom: 8px;
+
+      ion-card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--ion-color-primary);
+
+        ion-icon {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .resumen-info {
+      ion-item {
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+
+        ion-label {
+          h3 {
+            color: var(--ion-color-dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+
+          p {
+            color: var(--ion-color-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+          }
+        }
+
+        ion-badge {
+          font-size: 1rem;
+          padding: 8px 12px;
+        }
+      }
+    }
+  }
+
+  .productos-lista {
+    margin-bottom: 20px;
+
+    ion-list {
+      background: transparent;
+      padding: 0;
+    }
+  }
+}
+
+.acciones-container {
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-top: 1px solid var(--ion-color-light-shade);
+
+  .total-card {
+    margin: 0 0 16px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    ion-card-content {
+      padding: 16px;
+    }
+
+    .total-detalles {
+      ion-item {
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --border-color: var(--ion-color-light);
+
+        ion-label {
+          font-size: 0.95rem;
+          color: var(--ion-color-dark);
+        }
+
+        ion-note {
+          font-size: 0.95rem;
+          color: var(--ion-color-dark);
+        }
+
+        &.total-final {
+          border-top: 2px solid var(--ion-color-primary);
+          margin-top: 8px;
+          padding-top: 12px;
+
+          ion-label h2 {
+            margin: 0;
+            color: var(--ion-color-dark);
+          }
+
+          ion-text h2 {
+            margin: 0;
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .botones-accion {
+    .btn-pagar {
+      --border-radius: 12px;
+      --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+}
+
+.carrito-vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 32px;
+
+  .vacio-contenido {
+    text-align: center;
+    max-width: 300px;
+
+    .icono-vacio {
+      font-size: 4rem;
+      color: var(--ion-color-medium);
+      margin-bottom: 24px;
+    }
+
+    ion-text {
+      h2 {
+        color: var(--ion-color-dark);
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+      }
+
+      p {
+        color: var(--ion-color-medium);
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 32px;
+      }
+    }
+
+    .btn-explorar {
+      --border-radius: 12px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Animaciones
+.carrito-contenido {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.carrito-vacio {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .carrito-contenido {
+    padding: 12px 12px 120px 12px;
+
+    .resumen-card {
+      margin-bottom: 12px;
+    }
+  }
+
+  .acciones-container {
+    padding: 12px;
+
+    .total-card {
+      margin-bottom: 12px;
+
+      ion-card-content {
+        padding: 12px;
+      }
+    }
+
+    .total-final {
+      ion-text h2 {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  .carrito-vacio {
+    padding: 24px 16px;
+
+    .vacio-contenido {
+      .icono-vacio {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      ion-text {
+        h2 {
+          font-size: 1.25rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
