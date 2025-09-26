@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Perfil
-    </ion-title>
+    <ion-title>Mi Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,8 +11,123 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="container">
-    <h2>Mi Perfil</h2>
-    <p>Aquí se mostrará la información del usuario y sus pedidos</p>
+  <div *ngIf="perfil" class="perfil-contenido">
+
+    <!-- Información Principal del Usuario -->
+    <ion-card class="perfil-card">
+      <ion-card-content>
+        <div class="perfil-header">
+          <div class="avatar-container">
+            <ion-avatar class="perfil-avatar">
+              <img [src]="perfil.usuario.fotoPerfil || 'assets/images/avatar-placeholder.jpg'"
+                   [alt]="nombreCompleto" />
+            </ion-avatar>
+            <ion-button
+              fill="clear"
+              size="small"
+              class="btn-cambiar-foto"
+              (click)="onCambiarFoto()">
+              <ion-icon name="camera-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <div class="perfil-info">
+            <h2 class="nombre">{{ nombreCompleto }}</h2>
+            <p class="email">{{ perfil.usuario.email }}</p>
+            <ion-note class="tiempo-registro">{{ tiempoRegistro }}</ion-note>
+          </div>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="estadisticas-rapidas">
+          <div class="estadistica">
+            <ion-text color="primary">
+              <h3>{{ perfil.estadisticas.totalCompras }}</h3>
+            </ion-text>
+            <p>Compras</p>
+          </div>
+
+          <div class="estadistica">
+            <ion-text color="success">
+              <h3>{{ totalGastadoFormateado }}</h3>
+            </ion-text>
+            <p>Total Gastado</p>
+          </div>
+
+          <div class="estadistica">
+            <ion-text color="warning">
+              <h3>{{ perfil.estadisticas.cartasFavoritas }}</h3>
+            </ion-text>
+            <p>Favoritas</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Menú de Opciones -->
+    <ion-card class="opciones-card">
+      <ion-card-header>
+        <ion-title>Opciones</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item
+            *ngFor="let opcion of menuOpciones"
+            button
+            (click)="onNavegar(opcion.ruta)"
+            class="opcion-item">
+            <ion-icon [name]="opcion.icono" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>{{ opcion.titulo }}</h3>
+              <p>{{ opcion.descripcion }}</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+          </ion-item>
+
+          <!-- Cerrar Sesión -->
+          <ion-item
+            button
+            (click)="onCerrarSesion()"
+            class="opcion-item cerrar-sesion">
+            <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+            <ion-label>
+              <h3>Cerrar Sesión</h3>
+              <p>Salir de mi cuenta</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información adicional -->
+    <ion-card class="info-adicional-card">
+      <ion-card-content>
+        <div class="info-item">
+          <ion-text color="medium">
+            <p><strong>Última compra:</strong> {{ fechaUltimaCompraFormateada }}</p>
+          </ion-text>
+        </div>
+
+        <div class="info-item">
+          <ion-text color="medium">
+            <p><strong>Región:</strong> {{ perfil.usuario.region }}</p>
+          </ion-text>
+        </div>
+
+        <div class="info-item">
+          <ion-text color="medium">
+            <p><strong>Comuna:</strong> {{ perfil.usuario.comuna }}</p>
+          </ion-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="!perfil" class="cargando">
+    <ion-text>
+      <h3>Cargando perfil...</h3>
+    </ion-text>
   </div>
 </ion-content>
