@@ -1,0 +1,7 @@
+{
+  "name": "e-commerce-cartas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

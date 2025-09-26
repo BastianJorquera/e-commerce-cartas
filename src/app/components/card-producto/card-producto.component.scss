@@ -1,0 +1,160 @@
+.card-producto {
+  margin: 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  &.sin-stock {
+    opacity: 0.7;
+    .carta-imagen {
+      filter: grayscale(50%);
+    }
+  }
+}
+
+.imagen-container {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+
+  .carta-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover .carta-imagen {
+    transform: scale(1.05);
+  }
+
+  .badge-stock {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.75rem;
+    z-index: 2;
+  }
+
+  .btn-favorito {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    --background: rgba(255, 255, 255, 0.9);
+    --border-radius: 50%;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.titulo-carta {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.info-carta {
+  .descripcion {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .chips-container {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+
+    .chip-rareza {
+      font-size: 0.75rem;
+      height: 24px;
+    }
+
+    ion-chip {
+      font-size: 0.75rem;
+      height: 24px;
+      margin: 0;
+    }
+  }
+
+  .precio-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .precio {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+
+    .estado {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 12px;
+
+      &.estado-nuevo {
+        background-color: var(--ion-color-success);
+        color: white;
+      }
+
+      &.estado-usado---excelente {
+        background-color: var(--ion-color-primary);
+        color: white;
+      }
+
+      &.estado-usado---bueno {
+        background-color: var(--ion-color-warning);
+        color: white;
+      }
+
+      &.estado-usado---regular {
+        background-color: var(--ion-color-medium);
+        color: white;
+      }
+    }
+  }
+
+  .acciones {
+    .btn-agregar {
+      --border-radius: 8px;
+      margin: 0;
+
+      &[disabled] {
+        --opacity: 0.6;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .card-producto {
+    margin: 4px;
+  }
+
+  .imagen-container .carta-imagen {
+    height: 180px;
+  }
+
+  .titulo-carta {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,85 @@
+<ion-item class="carrito-item">
+  <!-- Imagen del producto -->
+  <ion-thumbnail slot="start" class="item-thumbnail">
+    <img [src]="item.carta.imagen" [alt]="item.carta.nombre" />
+  </ion-thumbnail>
+
+  <!-- Información del producto -->
+  <ion-label class="item-info">
+    <div class="info-header">
+      <h3 class="nombre-carta">{{ item.carta.nombre }}</h3>
+      <ion-button
+        *ngIf="modoEdicion"
+        fill="clear"
+        size="small"
+        color="danger"
+        class="btn-eliminar"
+        (click)="eliminarItem()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="detalles">
+      <ion-chip [color]="colorRareza" size="small">
+        <ion-text>{{ item.carta.rareza }}</ion-text>
+      </ion-chip>
+
+      <ion-chip color="tertiary" size="small">
+        <ion-text>{{ item.carta.estado }}</ion-text>
+      </ion-chip>
+    </div>
+
+    <div class="precio-unitario">
+      <span class="label">Precio unitario:</span>
+      <span class="valor">{{ precioFormateado }}</span>
+    </div>
+
+    <!-- Controles de cantidad -->
+    <div class="cantidad-container" *ngIf="modoEdicion">
+      <div class="controles-cantidad">
+        <ion-button
+          fill="clear"
+          size="small"
+          [disabled]="item.cantidad <= 1"
+          (click)="disminuirCantidad()">
+          <ion-icon name="remove-outline"></ion-icon>
+        </ion-button>
+
+        <ion-input
+          type="number"
+          class="input-cantidad"
+          [value]="item.cantidad"
+          [min]="1"
+          [max]="item.carta.stock"
+          (ionBlur)="onCantidadChange($event)">
+        </ion-input>
+
+        <ion-button
+          fill="clear"
+          size="small"
+          [disabled]="!puedeAumentar"
+          (click)="aumentarCantidad()">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="stock-info" *ngIf="item.carta.stock <= 5">
+        <span class="stock-bajo">Solo {{ item.carta.stock }} disponibles</span>
+      </div>
+    </div>
+
+    <!-- Solo mostrar cantidad si no es modo edición -->
+    <div class="cantidad-readonly" *ngIf="!modoEdicion">
+      <span class="label">Cantidad:</span>
+      <span class="valor">{{ item.cantidad }}</span>
+    </div>
+  </ion-label>
+
+  <!-- Subtotal -->
+  <div slot="end" class="subtotal-container">
+    <div class="subtotal">
+      <span class="label">Subtotal</span>
+      <span class="valor">{{ subtotalFormateado }}</span>
+    </div>
+  </div>
+</ion-item>

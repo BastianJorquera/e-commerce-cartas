@@ -1,0 +1,122 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Carrito</ion-title>
+    <ion-button
+      slot="end"
+      fill="clear"
+      color="danger"
+      [disabled]="carritoVacio"
+      (click)="onVaciarCarrito()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Carrito</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Carrito con productos -->
+  <div *ngIf="!carritoVacio" class="carrito-contenido">
+
+    <!-- Resumen del carrito -->
+    <ion-card class="resumen-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="cart-outline"></ion-icon>
+          Resumen de Compra
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="resumen-info">
+          <ion-item lines="none">
+            <ion-label>
+              <h3>{{ carrito.cantidadItems }} producto(s)</h3>
+              <p>Total: {{ totalFormateado }}</p>
+            </ion-label>
+            <ion-badge slot="end" color="primary">
+              {{ carrito.cantidadItems }}
+            </ion-badge>
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Lista de productos -->
+    <div class="productos-lista">
+      <ion-list>
+        <app-carrito-item
+          *ngFor="let item of carrito.items; trackBy: trackByItem"
+          [item]="item"
+          [modoEdicion]="true"
+          (itemActualizado)="onItemActualizado()"
+          (itemEliminado)="onItemEliminado($event)">
+        </app-carrito-item>
+      </ion-list>
+    </div>
+
+    <!-- Total y botones de acción -->
+    <div class="acciones-container">
+      <ion-card class="total-card">
+        <ion-card-content>
+          <div class="total-info">
+            <div class="total-detalles">
+              <ion-item lines="none">
+                <ion-label>Subtotal:</ion-label>
+                <ion-note slot="end">{{ totalFormateado }}</ion-note>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-label>Envío:</ion-label>
+                <ion-note slot="end">Gratis</ion-note>
+              </ion-item>
+
+              <ion-item lines="none" class="total-final">
+                <ion-label>
+                  <h2><strong>Total:</strong></h2>
+                </ion-label>
+                <ion-text slot="end" color="primary">
+                  <h2><strong>{{ totalFormateado }}</strong></h2>
+                </ion-text>
+              </ion-item>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="botones-accion">
+        <ion-button
+          expand="block"
+          size="large"
+          class="btn-pagar"
+          (click)="onProcederPago()">
+          <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+          Proceder al Pago
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrito vacío -->
+  <div *ngIf="carritoVacio" class="carrito-vacio">
+    <div class="vacio-contenido">
+      <ion-icon name="cart-outline" class="icono-vacio"></ion-icon>
+      <ion-text>
+        <h2>Tu carrito está vacío</h2>
+        <p>Agrega algunas cartas increíbles para comenzar tu colección</p>
+      </ion-text>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        routerLink="/tabs/catalogo"
+        class="btn-explorar">
+        <ion-icon name="card-outline" slot="start"></ion-icon>
+        Explorar Catálogo
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

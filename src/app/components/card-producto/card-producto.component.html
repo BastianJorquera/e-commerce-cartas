@@ -1,0 +1,62 @@
+<ion-card class="card-producto" [class.sin-stock]="sinStock">
+  <div class="imagen-container" (click)="onVerDetalle()">
+    <img [src]="carta.imagen" [alt]="carta.nombre" class="carta-imagen" />
+
+    <!-- Badge de stock bajo -->
+    <ion-badge *ngIf="stockBajo" color="warning" class="badge-stock">
+      Últimas {{ carta.stock }}
+    </ion-badge>
+
+    <!-- Badge sin stock -->
+    <ion-badge *ngIf="sinStock" color="danger" class="badge-stock">
+      Sin Stock
+    </ion-badge>
+
+    <!-- Botón favorito -->
+    <ion-button
+      fill="clear"
+      size="small"
+      class="btn-favorito"
+      (click)="onToggleFavorito(); $event.stopPropagation()">
+      <ion-icon [name]="esFavorita ? 'heart' : 'heartOutline'" [color]="esFavorita ? 'danger' : 'medium'"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-card-header>
+    <ion-card-title class="titulo-carta">{{ carta.nombre }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="info-carta">
+      <p class="descripcion">{{ carta.descripcion }}</p>
+
+      <div class="chips-container">
+        <ion-chip [color]="colorRareza" class="chip-rareza">
+          <ion-label>{{ carta.rareza }}</ion-label>
+        </ion-chip>
+
+        <ion-chip color="tertiary">
+          <ion-label>{{ carta.juego }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <div class="precio-container">
+        <span class="precio">{{ precioFormateado }}</span>
+        <span class="estado" [class]="estadoClase">
+          {{ carta.estado }}
+        </span>
+      </div>
+
+      <div class="acciones" *ngIf="mostrarBtnAgregar">
+        <ion-button
+          expand="block"
+          [disabled]="sinStock"
+          (click)="onAgregarAlCarrito()"
+          class="btn-agregar">
+          <ion-icon name="cart-outline" slot="start"></ion-icon>
+          {{ sinStock ? 'Sin Stock' : 'Agregar al Carrito' }}
+        </ion-button>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>

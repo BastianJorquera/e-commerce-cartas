@@ -1,0 +1,167 @@
+.carrito-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .item-thumbnail {
+    --size: 80px;
+    --border-radius: 8px;
+    margin-right: 12px;
+
+    img {
+      object-fit: cover;
+    }
+  }
+
+  .item-info {
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+
+      .nombre-carta {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ion-color-dark);
+        margin: 0;
+        flex: 1;
+        padding-right: 8px;
+      }
+
+      .btn-eliminar {
+        --padding-start: 8px;
+        --padding-end: 8px;
+        min-width: auto;
+      }
+    }
+
+    .detalles {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+
+      ion-chip {
+        font-size: 0.75rem;
+        height: 20px;
+        margin: 0;
+      }
+    }
+
+    .precio-unitario {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      .label {
+        font-size: 0.875rem;
+        color: var(--ion-color-medium);
+      }
+
+      .valor {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ion-color-dark);
+      }
+    }
+
+    .cantidad-container {
+      .controles-cantidad {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 4px;
+
+        ion-button {
+          --padding-start: 8px;
+          --padding-end: 8px;
+          --color: var(--ion-color-primary);
+        }
+
+        .input-cantidad {
+          width: 60px;
+          text-align: center;
+          --padding-start: 8px;
+          --padding-end: 8px;
+
+          input {
+            text-align: center;
+          }
+        }
+      }
+
+      .stock-info {
+        .stock-bajo {
+          font-size: 0.75rem;
+          color: var(--ion-color-warning);
+          font-weight: 500;
+        }
+      }
+    }
+
+    .cantidad-readonly {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .label {
+        font-size: 0.875rem;
+        color: var(--ion-color-medium);
+      }
+
+      .valor {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ion-color-dark);
+      }
+    }
+  }
+
+  .subtotal-container {
+    text-align: right;
+
+    .subtotal {
+      .label {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--ion-color-medium);
+        margin-bottom: 4px;
+      }
+
+      .valor {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .carrito-item {
+    .item-thumbnail {
+      --size: 60px;
+    }
+
+    .item-info {
+      .info-header .nombre-carta {
+        font-size: 0.9rem;
+      }
+
+      .controles-cantidad {
+        .input-cantidad {
+          width: 50px;
+        }
+      }
+    }
+
+    .subtotal-container .subtotal .valor {
+      font-size: 1rem;
+    }
+  }
+}
