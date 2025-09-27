@@ -1,232 +1,104 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/perfil" text="Perfil"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Historial de Compras</ion-title>
+<ion-header [translucent]="false">
+  <ion-toolbar class="custom-toolbar">
+    <div class="header-container">
+      <!-- Logo -->
+      <div class="logo-section">
+        <img src="assets/images/logo.png" alt="Card Hunters" class="logo">
+        <div class="logo-text">
+          <span class="logo-title">CARD</span>
+          <span class="logo-subtitle">HUNTERS</span>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="search-section">
+        <div class="search-container">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+          <input type="text" placeholder="Búsqueda" class="search-input">
+        </div>
+      </div>
+
+      <!-- Carrito e icono de usuario -->
+      <div class="actions-section">
+        <ion-button fill="clear" class="cart-btn" routerLink="/tabs/carrito">
+          <ion-icon name="bag-outline" class="cart-icon"></ion-icon>
+        </ion-button>
+
+        <div class="user-profile">
+          <ion-button fill="clear" class="profile-btn">
+            <ion-icon name="person-outline" class="profile-icon"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Historial</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="historial-content">
+  <div class="content-wrapper">
 
-  <div class="historial-contenido">
-
-    <!-- Resumen de estadísticas -->
-    <ion-card class="estadisticas-card">
-      <ion-card-header>
-        <ion-title>
-          <ion-icon name="receipt-outline"></ion-icon>
-          Resumen de Compras
-        </ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="estadisticas-grid">
-          <div class="estadistica">
-            <ion-text color="primary">
-              <h3>{{ estadisticas.totalPedidos }}</h3>
-            </ion-text>
-            <p>Total de Pedidos</p>
-          </div>
-
-          <div class="estadistica">
-            <ion-text color="success">
-              <h3>{{ formatearPrecio(estadisticas.totalGastado) }}</h3>
-            </ion-text>
-            <p>Total Gastado</p>
-          </div>
-
-          <div class="estadistica">
-            <ion-text color="tertiary">
-              <h3>{{ estadisticas.pedidosEntregados }}</h3>
-            </ion-text>
-            <p>Entregados</p>
-          </div>
-
-          <div class="estadistica">
-            <ion-text color="warning">
-              <h3>{{ estadisticas.pedidosPendientes }}</h3>
-            </ion-text>
-            <p>En Proceso</p>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <!-- Filtros -->
-    <ion-card class="filtros-card">
-      <ion-card-content>
-        <ion-segment
-          [(ngModel)]="filtroActivo"
-          (ionChange)="onFiltroChange($event)"
-          class="filtros-segment">
-          <ion-segment-button value="todos">
-            <ion-label>Todos</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="pendientes">
-            <ion-label>En Proceso</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="entregados">
-            <ion-label>Entregados</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="cancelados">
-            <ion-label>Cancelados</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </ion-card-content>
-    </ion-card>
+    <!-- Título de la sección -->
+    <div class="section-header">
+      <ion-icon name="receipt" class="section-icon"></ion-icon>
+      <h2 class="section-title">Historial de Compras:</h2>
+    </div>
 
     <!-- Lista de pedidos -->
     <div class="pedidos-lista" *ngIf="!cargando">
-      <ion-card
+      <div
         *ngFor="let pedido of pedidosFiltrados; trackBy: trackByPedido"
         class="pedido-card">
 
-        <!-- Header del pedido -->
-        <ion-card-header class="pedido-header">
-          <div class="header-info">
-            <div class="pedido-numero">
-              <ion-text color="dark">
-                <h3>{{ pedido.numeroPedido }}</h3>
-              </ion-text>
-              <ion-note>{{ formatearFecha(pedido.fecha) }}</ion-note>
-            </div>
+        <!-- Imagen del producto principal -->
+        <div class="product-image-container">
+          <img
+            [src]="pedido.items[0].carta.imagen"
+            [alt]="pedido.items[0].carta.nombre"
+            class="product-image">
 
-            <div class="pedido-estado">
-              <ion-chip [color]="obtenerColorEstado(pedido.estado)" class="estado-chip">
-                <ion-label>{{ pedido.estado }}</ion-label>
-              </ion-chip>
-            </div>
+          <!-- Badge de rareza -->
+          <div class="rareza-badge" [attr.data-rareza]="pedido.items[0].carta.rareza.toLowerCase()">
+            {{ pedido.items[0].carta.rareza }}
           </div>
+        </div>
 
-          <div class="pedido-total">
-            <ion-text color="primary">
-              <h2>{{ formatearPrecio(pedido.total) }}</h2>
-            </ion-text>
+        <!-- Información del pedido -->
+        <div class="pedido-info">
+          <h3 class="product-name">{{ pedido.items[0].carta.nombre }}</h3>
+
+          <div class="pedido-details">
+            <p class="detail-row">
+              <strong>Fecha de Compra:</strong> {{ formatearFecha(pedido.fecha) }}
+            </p>
+
+            <p class="detail-row">
+              <strong>Comprado en Región:</strong> {{ pedido.direccionEnvio.ciudad }}
+            </p>
+
+            <p class="detail-row">
+              <strong>Comuna:</strong> {{ getComuna(pedido) }}
+            </p>
           </div>
-        </ion-card-header>
+        </div>
 
-        <!-- Contenido del pedido -->
-        <ion-card-content>
-          <!-- Items del pedido -->
-          <div class="items-resumen">
-            <ion-text color="medium">
-              <p>
-                <strong>{{ pedido.items.length }}</strong>
-                producto{{ pedido.items.length > 1 ? 's' : '' }}:
-              </p>
-            </ion-text>
-
-            <div class="items-lista">
-              <span
-                *ngFor="let item of pedido.items; let last = last"
-                class="item-nombre">
-                {{ item.carta.nombre }} ({{ item.cantidad }}){{ !last ? ', ' : '' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Información de envío -->
-          <div class="info-envio" *ngIf="pedido.tracking">
-            <ion-icon name="car-outline" color="primary"></ion-icon>
-            <ion-text color="medium">
-              <p>Tracking: <strong>{{ pedido.tracking }}</strong></p>
-            </ion-text>
-          </div>
-
-          <!-- Descripción del estado -->
-          <div class="descripcion-estado">
-            <ion-text color="medium">
-              <p>{{ obtenerDescripcionEstado(pedido.estado) }}</p>
-            </ion-text>
-          </div>
-
-          <!-- Fechas importantes -->
-          <div class="fechas-info" *ngIf="pedido.fechaEstimadaEntrega || pedido.fechaEntrega">
-            <div *ngIf="pedido.fechaEntrega" class="fecha-item">
-              <ion-icon name="checkmark-outline" color="success"></ion-icon>
-              <ion-text color="success">
-                <small>Entregado: {{ formatearFecha(pedido.fechaEntrega) }}</small>
-              </ion-text>
-            </div>
-
-            <div *ngIf="!pedido.fechaEntrega && pedido.fechaEstimadaEntrega" class="fecha-item">
-              <ion-icon name="time-outline" color="warning"></ion-icon>
-              <ion-text color="warning">
-                <small>Entrega estimada: {{ formatearFecha(pedido.fechaEstimadaEntrega) }}</small>
-              </ion-text>
-            </div>
-          </div>
-
-          <!-- Notas -->
-          <div *ngIf="pedido.notas" class="pedido-notas">
-            <ion-text color="medium">
-              <p><em>{{ pedido.notas }}</em></p>
-            </ion-text>
-          </div>
-
-          <!-- Acciones -->
-          <div class="pedido-acciones">
-            <ion-button
-              fill="outline"
-              size="small"
-              (click)="onVerDetalle(pedido)">
-              <ion-icon name="eye-outline" slot="start"></ion-icon>
-              Ver Detalle
-            </ion-button>
-
-            <ion-button
-              fill="outline"
-              size="small"
-              color="success"
-              (click)="onReordenar(pedido)">
-              <ion-icon name="refresh-outline" slot="start"></ion-icon>
-              Reordenar
-            </ion-button>
-
-            <ion-button
-              *ngIf="pedido.estado === 'Pendiente' || pedido.estado === 'Confirmado'"
-              fill="outline"
-              size="small"
-              color="danger"
-              (click)="onCancelarPedido(pedido)">
-              <ion-icon name="close-outline" slot="start"></ion-icon>
-              Cancelar
-            </ion-button>
-          </div>
-        </ion-card-content>
-      </ion-card>
+        <!-- Precio -->
+        <div class="precio-container">
+          <span class="precio-label">Precio:</span>
+          <span class="precio-value">{{ formatearPrecio(pedido.total) }}</span>
+        </div>
+      </div>
     </div>
 
     <!-- Estado de carga -->
-    <div *ngIf="cargando" class="cargando">
-      <ion-text>
-        <h3>Cargando historial...</h3>
-      </ion-text>
+    <div *ngIf="cargando" class="loading-state">
+      <p>Cargando historial...</p>
     </div>
 
     <!-- Sin pedidos -->
-    <div *ngIf="!cargando && pedidosFiltrados.length === 0" class="sin-pedidos">
-      <ion-text>
-        <h3>No hay pedidos</h3>
-        <p *ngIf="filtroActivo !== 'todos'">
-          No tienes pedidos con el filtro seleccionado
-        </p>
-        <p *ngIf="filtroActivo === 'todos'">
-          Aún no has realizado ninguna compra. ¡Explora nuestro catálogo!
-        </p>
-      </ion-text>
-
-      <ion-button
-        *ngIf="filtroActivo === 'todos'"
-        expand="block"
-        fill="outline"
-        routerLink="/tabs/catalogo">
-        Ir al Catálogo
+    <div *ngIf="!cargando && pedidosFiltrados.length === 0" class="empty-state">
+      <p>No hay pedidos en tu historial</p>
+      <ion-button routerLink="/tabs/catalogo" fill="outline">
+        Explorar Catálogo
       </ion-button>
     </div>
   </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 import {
   IonHeader,
   IonToolbar,
@@ -29,6 +29,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
+  searchOutline,
+  bagOutline,
+  personOutline,
+  receipt,
   arrowBackOutline,
   receiptOutline,
   refreshOutline,
@@ -50,6 +54,7 @@ import { HistorialCompras, Pedido, EstadoPedido } from '../../models/interfaces/
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -69,8 +74,7 @@ import { HistorialCompras, Pedido, EstadoPedido } from '../../models/interfaces/
     IonBadge,
     IonNote,
     IonSegment,
-    IonSegmentButton,
-    FormsModule
+    IonSegmentButton
   ]
 })
 export class HistorialComprasPage implements OnInit, OnDestroy {
@@ -94,6 +98,10 @@ export class HistorialComprasPage implements OnInit, OnDestroy {
     private toastController: ToastController
   ) {
     addIcons({
+      searchOutline,
+      bagOutline,
+      personOutline,
+      receipt,
       arrowBackOutline,
       receiptOutline,
       refreshOutline,
@@ -279,5 +287,10 @@ export class HistorialComprasPage implements OnInit, OnDestroy {
 
   get totalGastadoFormateado(): string {
     return this.formatearPrecio(this.historial.totalGastado);
+  }
+
+  getComuna(pedido: Pedido): string {
+    // Extraer comuna de la dirección o usar valor por defecto
+    return pedido.direccionEnvio.ciudad || 'No especificada';
   }
 }
