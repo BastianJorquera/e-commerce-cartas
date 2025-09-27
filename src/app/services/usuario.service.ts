@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Usuario, PerfilUsuario, EstadisticasUsuario, Region, Comuna, EditarPerfilData } from '../models/interfaces/usuario.interface';
+import { HistorialService } from './historial.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,27 +11,19 @@ export class UsuarioService {
   private usuarioSubject = new BehaviorSubject<PerfilUsuario | null>(null);
   public usuario$ = this.usuarioSubject.asObservable();
 
-  // Datos mock del usuario
-  private usuarioMock: PerfilUsuario = {
-    usuario: {
-      id: '1',
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'juan.perez@email.com',
-      fechaNacimiento: new Date('1990-05-15'),
-      region: 'Metropolitana',
-      comuna: 'Providencia',
-      direccion: 'Av. Providencia 1234, Depto 56',
-      fotoPerfil: 'assets/images/avatar-placeholder.jpg',
-      fechaRegistro: new Date('2023-01-10'),
-      ultimaConexion: new Date()
-    },
-    estadisticas: {
-      totalCompras: 12,
-      totalGastado: 450000,
-      cartasFavoritas: 8,
-      fechaUltimaCompra: new Date('2024-09-20')
-    }
+  // Datos mock del usuario (solo info personal)
+  private usuarioMock: Usuario = {
+    id: '1',
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    email: 'juan.perez@email.com',
+    fechaNacimiento: new Date('1990-05-15'),
+    region: 'Metropolitana',
+    comuna: 'Providencia',
+    direccion: 'Av. Providencia 1234, Depto 56',
+    fotoPerfil: 'assets/images/avatar-placeholder.jpg',
+    fechaRegistro: new Date('2023-01-10'),
+    ultimaConexion: new Date()
   };
 
   // Regiones y comunas de Chile (datos simplificados)
@@ -67,14 +61,40 @@ export class UsuarioService {
     }
   ];
 
-  constructor() {
-    // Simular usuario logueado
-    this.usuarioSubject.next(this.usuarioMock);
+  constructor(private historialService: HistorialService) {
+    // El perfil se cargará combinando usuario + estadísticas del historial
   }
 
-  // Obtener perfil del usuario
+  // Obtener perfil del usuario (combina datos personales + estadísticas del historial)
   obtenerPerfil(): Observable<PerfilUsuario | null> {
-    return this.usuario$;
+    return combineLatest([
+      this.historialService.obtenerHistorial()
+    ]).pipe(
+      map(([historial]) => {
+        if (!this.usuarioMock) return null;
+
+        // Calcular estadísticas reales desde el historial
+        const estadisticas = this.historialService.obtenerEstadisticas();
+        const pedidosEntregados = historial.pedidos.filter(p => p.estado === 'Entregado');
+
+        const estadisticasReales: EstadisticasUsuario = {
+          totalCompras: estadisticas.pedidosEntregados,
+          totalGastado: estadisticas.totalGastado,
+          cartasFavoritas: 8, // TODO: Implementar sistema de favoritos real
+          fechaUltimaCompra: historial.ultimoPedido?.fecha
+        };
+
+        const perfil: PerfilUsuario = {
+          usuario: this.usuarioMock,
+          estadisticas: estadisticasReales
+        };
+
+        // Actualizar el subject para mantener compatibilidad
+        this.usuarioSubject.next(perfil);
+
+        return perfil;
+      })
+    );
   }
 
   // Actualizar información del usuario
