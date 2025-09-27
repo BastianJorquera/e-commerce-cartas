@@ -14,12 +14,37 @@ export interface Carrito {
 
 export interface Pedido {
   id: string;
+  numeroPedido: string;
   fecha: Date;
   items: ItemCarrito[];
+  subtotal: number;
+  costoEnvio: number;
+  descuentos: number;
   total: number;
-  estado: 'Pendiente' | 'Confirmado' | 'Enviado' | 'Entregado' | 'Cancelado';
+  estado: EstadoPedido;
   direccionEnvio: DireccionEnvio;
   metodoPago: MetodoPago;
+  fechaEstimadaEntrega?: Date;
+  fechaEntrega?: Date;
+  tracking?: string;
+  notas?: string;
+}
+
+export type EstadoPedido = 
+  | 'Pendiente' 
+  | 'Confirmado' 
+  | 'Preparando' 
+  | 'Enviado' 
+  | 'En Tránsito' 
+  | 'Entregado' 
+  | 'Cancelado' 
+  | 'Devuelto';
+
+export interface HistorialCompras {
+  pedidos: Pedido[];
+  totalPedidos: number;
+  totalGastado: number;
+  ultimoPedido?: Pedido;
 }
 
 export interface DireccionEnvio {
