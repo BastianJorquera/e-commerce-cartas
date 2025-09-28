@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { GlobalHeaderComponent } from '../shared/global-header/global-header.component';
 import {
   IonHeader,
   IonToolbar,
@@ -40,6 +41,7 @@ import { Carta, FiltrosBusqueda } from '../models/interfaces/carta.interface';
   styleUrls: ['catalogo.page.scss'],
   standalone: true,
   imports: [
+    GlobalHeaderComponent,
     CommonModule,
     FormsModule,
     IonHeader,

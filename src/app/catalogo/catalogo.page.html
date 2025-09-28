@@ -1,146 +1,127 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Catálogo de Cartas</ion-title>
-    <ion-button slot="end" fill="clear" (click)="toggleFiltros()">
-      <ion-icon name="filter-outline"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
+<app-global-header [showSearch]="true" searchPlaceholder="Buscar cartas..."></app-global-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Catálogo</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="global-content">
+  <div class="content-wrapper">
 
-  <!-- Barra de búsqueda -->
-  <div class="search-container">
-    <ion-searchbar
-      placeholder="Buscar cartas..."
-      [debounce]="300"
-      (ionInput)="onBuscar($event)">
-    </ion-searchbar>
-  </div>
+    <!-- Filtros -->
+    <div class="filtros-container" [class.show]="mostrarFiltros">
+      <ion-item>
+        <ion-label>Categoría</ion-label>
+        <ion-select
+          [(ngModel)]="filtros.categoria"
+          (ionChange)="onCategoriaChange()"
+          placeholder="Todas las categorías">
+          <ion-select-option value="todas">Todas</ion-select-option>
+          <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.toLowerCase()">
+            {{ categoria }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-  <!-- Filtros -->
-  <div class="filtros-container" [class.show]="mostrarFiltros">
-    <ion-item>
-      <ion-label>Categoría</ion-label>
-      <ion-select
-        [(ngModel)]="filtros.categoria"
-        (ionChange)="onCategoriaChange()"
-        placeholder="Todas las categorías">
-        <ion-select-option value="todas">Todas</ion-select-option>
-        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.toLowerCase()">
-          {{ categoria }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-label>Juego</ion-label>
+        <ion-select
+          [(ngModel)]="filtros.juegoSeleccionado"
+          (ionChange)="onJuegoChange()"
+          placeholder="Todos los juegos">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          <ion-select-option *ngFor="let juego of juegos" [value]="juego.toLowerCase()">
+            {{ juego }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>Juego</ion-label>
-      <ion-select
-        [(ngModel)]="filtros.juegoSeleccionado"
-        (ionChange)="onJuegoChange()"
-        placeholder="Todos los juegos">
-        <ion-select-option value="todos">Todos</ion-select-option>
-        <ion-select-option *ngFor="let juego of juegos" [value]="juego.toLowerCase()">
-          {{ juego }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-label>Rareza</ion-label>
+        <ion-select
+          [(ngModel)]="filtros.rarezaSeleccionada"
+          (ionChange)="onRarezaChange()"
+          placeholder="Todas las rarezas">
+          <ion-select-option *ngFor="let rareza of rarezas" [value]="rareza.toLowerCase()">
+            {{ rareza }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>Rareza</ion-label>
-      <ion-select
-        [(ngModel)]="filtros.rarezaSeleccionada"
-        (ionChange)="onRarezaChange()"
-        placeholder="Todas las rarezas">
-        <ion-select-option *ngFor="let rareza of rarezas" [value]="rareza.toLowerCase()">
-          {{ rareza }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-label>Rango de Precio</ion-label>
+        <ion-range
+          dual-knobs="true"
+          [min]="0"
+          [max]="100000"
+          [step]="1000"
+          [value]="{ lower: filtros.precioMin, upper: filtros.precioMax }"
+          (ionChange)="onPrecioChange($event)">
+        </ion-range>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>Rango de Precio</ion-label>
-      <ion-range
-        dual-knobs="true"
-        [min]="0"
-        [max]="100000"
-        [step]="1000"
-        [value]="{ lower: filtros.precioMin, upper: filtros.precioMax }"
-        (ionChange)="onPrecioChange($event)">
-      </ion-range>
-    </ion-item>
+      <div class="precio-texto">
+        {{ precioRangoTexto }}
+      </div>
 
-    <div class="precio-texto">
-      {{ precioRangoTexto }}
+      <ion-item>
+        <ion-label>Ordenar por</ion-label>
+        <ion-select
+          [(ngModel)]="filtros.ordenarPor"
+          (ionChange)="onOrdenChange()">
+          <ion-select-option *ngFor="let opcion of opcionesOrden" [value]="opcion.value">
+            {{ opcion.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="filtros-acciones">
+        <ion-button expand="block" fill="clear" (click)="limpiarFiltros()">
+          Limpiar Filtros
+        </ion-button>
+      </div>
     </div>
 
-    <ion-item>
-      <ion-label>Ordenar por</ion-label>
-      <ion-select
-        [(ngModel)]="filtros.ordenarPor"
-        (ionChange)="onOrdenChange()">
-        <ion-select-option *ngFor="let opcion of opcionesOrden" [value]="opcion.value">
-          {{ opcion.label }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <!-- Información de resultados -->
+    <div class="resultados-info">
+      <ion-chip color="primary">
+        <ion-text>{{ cartasFiltradas.length }} carta(s) encontrada(s)</ion-text>
+      </ion-chip>
+    </div>
 
-    <div class="filtros-acciones">
-      <ion-button expand="block" fill="clear" (click)="limpiarFiltros()">
+    <!-- Grid de cartas -->
+    <div class="cartas-grid">
+      <ion-grid>
+        <ion-row>
+          <ion-col
+            size="12"
+            size-sm="6"
+            size-md="4"
+            size-lg="3"
+            *ngFor="let carta of cartasFiltradas; trackBy: trackByCarta">
+            <app-card-producto
+              [carta]="carta"
+              [mostrarBtnAgregar]="true"
+              (cartaSeleccionada)="onCartaSeleccionada($event)"
+              (agregarAFavoritos)="onAgregarAFavoritos($event)">
+            </app-card-producto>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- Mensaje si no hay resultados -->
+    <div class="sin-resultados" *ngIf="cartasFiltradas.length === 0">
+      <ion-text>
+        <h3>No se encontraron cartas</h3>
+        <p>Intenta ajustar los filtros de búsqueda</p>
+      </ion-text>
+      <ion-button expand="block" fill="outline" (click)="limpiarFiltros()">
         Limpiar Filtros
       </ion-button>
     </div>
-  </div>
 
-  <!-- Información de resultados -->
-  <div class="resultados-info">
-    <ion-chip color="primary">
-      <ion-text>{{ cartasFiltradas.length }} carta(s) encontrada(s)</ion-text>
-    </ion-chip>
+    <!-- FAB Carrito -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="cantidadCarrito > 0">
+      <ion-fab-button>
+        <ion-icon name="cart-outline"></ion-icon>
+        <ion-badge color="danger" class="carrito-badge">{{ cantidadCarrito }}</ion-badge>
+      </ion-fab-button>
+    </ion-fab>
   </div>
-
-  <!-- Grid de cartas -->
-  <div class="cartas-grid">
-    <ion-grid>
-      <ion-row>
-        <ion-col
-          size="12"
-          size-sm="6"
-          size-md="4"
-          size-lg="3"
-          *ngFor="let carta of cartasFiltradas; trackBy: trackByCarta">
-          <app-card-producto
-            [carta]="carta"
-            [mostrarBtnAgregar]="true"
-            (cartaSeleccionada)="onCartaSeleccionada($event)"
-            (agregarAFavoritos)="onAgregarAFavoritos($event)">
-          </app-card-producto>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
-  <!-- Mensaje si no hay resultados -->
-  <div class="sin-resultados" *ngIf="cartasFiltradas.length === 0">
-    <ion-text>
-      <h3>No se encontraron cartas</h3>
-      <p>Intenta ajustar los filtros de búsqueda</p>
-    </ion-text>
-    <ion-button expand="block" fill="outline" (click)="limpiarFiltros()">
-      Limpiar Filtros
-    </ion-button>
-  </div>
-
-  <!-- FAB Carrito -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="cantidadCarrito > 0">
-    <ion-fab-button>
-      <ion-icon name="cart-outline"></ion-icon>
-      <ion-badge color="danger" class="carrito-badge">{{ cantidadCarrito }}</ion-badge>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>

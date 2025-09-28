@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GlobalHeaderComponent } from '../../shared/global-header/global-header.component';
 import {
   IonHeader,
   IonToolbar,
@@ -53,6 +54,7 @@ import { HistorialCompras, Pedido, EstadoPedido } from '../../models/interfaces/
   styleUrls: ['./historial-compras.page.scss'],
   standalone: true,
   imports: [
+    GlobalHeaderComponent,
     CommonModule,
     FormsModule,
     IonHeader,

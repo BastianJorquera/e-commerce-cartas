@@ -1,154 +1,6 @@
-// Header personalizado
-.custom-toolbar {
-  --background: #4a4a4a;
-  --color: white;
-  height: 80px;
+// HISTORIAL DE COMPRAS - ESTILOS ESPECÍFICOS
 
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    height: 100%;
-  }
-
-  .logo-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    .logo {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-
-      .logo-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #d4af37;
-      }
-
-      .logo-subtitle {
-        font-size: 14px;
-        font-weight: normal;
-        color: #d4af37;
-      }
-    }
-  }
-
-  .search-section {
-    flex: 1;
-    max-width: 500px;
-    margin: 0 20px;
-
-    .search-container {
-      position: relative;
-      width: 100%;
-
-      .search-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #666;
-        font-size: 18px;
-        z-index: 2;
-      }
-
-      .search-input {
-        width: 100%;
-        height: 45px;
-        border: none;
-        border-radius: 25px;
-        background: #e8e8e8;
-        padding: 0 20px 0 45px;
-        font-size: 16px;
-        color: #333;
-
-        &::placeholder {
-          color: #666;
-        }
-
-        &:focus {
-          outline: none;
-          background: #f0f0f0;
-        }
-      }
-    }
-  }
-
-  .actions-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    .cart-btn {
-      --color: white;
-      --background: transparent;
-
-      .cart-icon {
-        font-size: 28px;
-        color: white;
-      }
-    }
-
-    .user-profile {
-      .profile-btn {
-        --background: #d4af37;
-        --color: #4a4a4a;
-        --border-radius: 50%;
-        width: 45px;
-        height: 45px;
-
-        .profile-icon {
-          font-size: 24px;
-        }
-      }
-    }
-  }
-}
-
-// Contenido principal
-.historial-content {
-  --background: #f5f5f5;
-}
-
-.content-wrapper {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 25px;
-  background: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  .section-icon {
-    font-size: 24px;
-    color: #333;
-  }
-
-  .section-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-  }
-}
-
-// Cards de pedidos
+// Cards de pedidos específicas para historial
 .pedidos-lista {
   display: flex;
   flex-direction: column;
@@ -159,16 +11,8 @@
   display: flex;
   align-items: center;
   background: #d3d3d3;
-  border-radius: 12px;
   padding: 20px;
   gap: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  }
 
   .product-image-container {
     position: relative;
@@ -222,6 +66,173 @@
     .product-name {
       font-size: 18px;
       font-weight: 600;
+      color: var(--ch-text-primary);
+      margin: 0 0 15px 0;
+    }
+
+    .pedido-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .detail-row {
+        font-size: 14px;
+        color: var(--ch-text-secondary);
+        margin: 0;
+
+        strong {
+          color: var(--ch-text-primary);
+        }
+      }
+    }
+  }
+
+  .precio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+
+    .precio-label {
+      font-size: 14px;
+      color: var(--ch-text-secondary);
+      margin-bottom: 5px;
+    }
+
+    .precio-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--ch-text-primary);
+    }
+  }
+}
+
+// Estados de la aplicación
+.loading-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  p {
+    font-size: 16px;
+    color: var(--ch-text-secondary);
+    margin-bottom: 20px;
+  }
+
+  ion-button {
+    max-width: 200px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .pedido-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+
+    .product-image-container {
+      align-self: center;
+    }
+
+    .pedido-info {
+      text-align: center;
+    }
+
+    .precio-container {
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pedido-card {
+    padding: 15px;
+
+    .product-image-container .product-image {
+      width: 70px;
+      height: 95px;
+    }
+
+    .pedido-info .product-name {
+      font-size: 16px;
+    }
+
+    .pedido-details .detail-row {
+      font-size: 13px;
+    }
+
+    .precio-container .precio-value {
+      font-size: 16px;
+    }
+  }
+}
+
+// Animaciones
+.pedido-card {
+  animation: slideInUp 0.4s ease-out;
+  animation-fill-mode: both;
+
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+    .rareza-badge {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+
+      &[data-rareza="común"] {
+        background: #666;
+      }
+
+      &[data-rareza="poco común"] {
+        background: #28a745;
+      }
+
+      &[data-rareza="rara"] {
+        background: #007bff;
+      }
+
+      &[data-rareza="épica"] {
+        background: #6f42c1;
+      }
+
+      &[data-rareza="legendaria"] {
+        background: #ffc107;
+        color: #333;
+      }
+    }
+
+
+  .pedido-info {
+    flex: 1;
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 600;
       color: #333;
       margin: 0 0 15px 0;
     }
@@ -261,7 +272,7 @@
       color: #333;
     }
   }
-}
+
 
 // Estados de la aplicación
 .loading-state,
@@ -293,18 +304,7 @@
 
     .logo-section {
       .logo {
-        width: 35px;
-        height: 35px;
-      }
-
-      .logo-text {
-        .logo-title {
-          font-size: 16px;
-        }
-
-        .logo-subtitle {
-          font-size: 12px;
-        }
+        height: 45px;
       }
     }
 
@@ -367,6 +367,10 @@
 
     .logo-section {
       flex: 1;
+
+      .logo {
+        height: 40px;
+      }
     }
   }
 
@@ -410,5 +414,46 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+// Estilos para los tabs solo cuando estamos en esta página
+:host {
+  ion-tab-bar {
+    --background: #4a4a4a !important;
+    --color: white !important;
+    --color-selected: #d4af37 !important;
+    border-top: 1px solid #333;
+
+    ion-tab-button {
+      --color: #cccccc;
+      --color-selected: #d4af37;
+      --ripple-color: #d4af37;
+
+      &.tab-selected {
+        --color: #d4af37;
+
+        ion-icon {
+          color: #d4af37;
+        }
+
+        ion-label {
+          color: #d4af37;
+          font-weight: 600;
+        }
+      }
+
+      ion-icon {
+        color: #cccccc;
+        transition: color 0.3s ease;
+      }
+
+      ion-label {
+        color: #cccccc;
+        font-size: 12px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+    }
   }
 }
