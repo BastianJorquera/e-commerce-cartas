@@ -27,6 +27,7 @@ import { trashOutline, cartOutline, checkmarkOutline } from 'ionicons/icons';
 import { CarritoItemComponent } from '../components/carrito-item/carrito-item.component';
 import { CarritoService } from '../services/carrito.service';
 import { Carrito } from '../models/interfaces/carrito.interface';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-carrito',
