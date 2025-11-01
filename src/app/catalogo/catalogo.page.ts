@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -18,6 +19,7 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  IonButtons,
   IonIcon,
   IonChip,
   IonText,
@@ -42,6 +44,7 @@ import { Carta, FiltrosBusqueda } from '../models/interfaces/carta.interface';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -57,6 +60,7 @@ import { Carta, FiltrosBusqueda } from '../models/interfaces/carta.interface';
     IonRow,
     IonCol,
     IonButton,
+    IonButtons,
     IonIcon,
     IonChip,
     IonText,
