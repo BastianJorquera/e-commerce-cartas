@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Inicio de Sesión</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/tabs/catalogo">Volver a catalogo</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Bienvenido a Card Hunters de nuevo</ion-card-title>
+        <ion-card-subtitle>Inicia sesión para continuar</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form (ngSubmit)="login()" [formGroup]="loginForm">
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="email" formControlName="email" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="password" required></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
+            Iniciar Sesión
+          </ion-button>
+
+          <div class="register-link">
+            <p>¿No tienes cuenta?
+              <a routerLink="/crear-sesion">Regístrate aquí</a>
+            </p>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+
+
+
+
+
+<!-- 
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>inicio-sesion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">inicio-sesion</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content>
+-->
