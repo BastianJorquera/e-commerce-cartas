@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -18,7 +19,7 @@ import {
   IonButtons,
   ToastController,
 } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -48,7 +49,12 @@ import { RouterModule } from '@angular/router';
 export class InicioSesionPage implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private toastCtrl: ToastController) {}
+  constructor(
+    private fb: FormBuilder,
+    private toastCtrl: ToastController,
+    private usuarioService: UsuarioService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -58,26 +64,32 @@ export class InicioSesionPage implements OnInit {
   }
 
   async login() {
-    const { email, password } = this.loginForm.value;
+  const { email, password } = this.loginForm.value;
 
-    // Simulación de autenticación
-    if (email === 'test@correo.com' && password === '123456') {
-      const toast = await this.toastCtrl.create({
-        message: 'Inicio de sesión exitoso 🎉',
-        duration: 2000,
-        color: 'success',
-      });
-      await toast.present();
+  // Obtener usuarios guardados
+  const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+  const usuarioEncontrado = usuarios.find((u: any) => u.email === email && u.password === password);
 
-      // Aquí podrías navegar a /home si ya existe
-      // this.router.navigateByUrl('/home');
-    } else {
-      const toast = await this.toastCtrl.create({
-        message: 'Credenciales incorrectas',
-        duration: 2000,
-        color: 'danger',
-      });
-      await toast.present();
-    }
+  if (!usuarioEncontrado) {
+    const toast = await this.toastCtrl.create({
+      message: 'Usuario o contraseña incorrectos',
+      duration: 2000,
+      color: 'danger',
+    });
+    await toast.present();
+    return;
+  }
+
+  // Iniciar sesión usando UsuarioService
+  this.usuarioService.iniciarSesion(); // mantiene la compatibilidad con tu código actual
+  const toast = await this.toastCtrl.create({
+    message: 'Inicio de sesión exitoso 🎉',
+    duration: 2000,
+    color: 'success',
+  });
+  await toast.present();
+
+  // Abrir tab Perfil automáticamente
+  this.router.navigateByUrl('/tabs/perfil', { replaceUrl: true });
   }
 }

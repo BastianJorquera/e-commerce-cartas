@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -102,7 +102,8 @@ export class CatalogoPage implements OnInit, OnDestroy {
 
   constructor(
     private cartasService: CartasService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private router: Router
   ) {
     addIcons({ searchOutline, filterOutline, cartOutline });
   }
@@ -218,5 +219,17 @@ export class CatalogoPage implements OnInit, OnDestroy {
     }).format(this.filtros.precioMax);
 
     return `${min} - ${max}`;
+  }
+
+  irAPerfil(): void {
+  const usuario = localStorage.getItem('usuario'); // o el nombre de tu clave de sesión
+
+  if (usuario) {
+    // Si hay sesión iniciada
+    this.router.navigateByUrl('/tabs/perfil');
+  } else {
+    // Si NO hay sesión iniciada
+    this.router.navigateByUrl('/inicio-sesion');
+  }
   }
 }

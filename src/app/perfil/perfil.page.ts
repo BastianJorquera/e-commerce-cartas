@@ -102,10 +102,27 @@ export class PerfilPage implements OnInit, OnDestroy {
     });
   }
 
+  //Variable si la sesion está iniciada o no
+  sesionActiva = false;
+
   ngOnInit() {
-    this.subscription = this.usuarioService.obtenerPerfil().subscribe(
-      perfil => this.perfil = perfil
-    );
+  // Si ya hay usuario guardado, marca la sesión como activa
+  this.sesionActiva = this.usuarioService.estaLogueado();
+
+  this.subscription = this.usuarioService.obtenerPerfil().subscribe(perfil => {
+    this.perfil = perfil;
+    this.sesionActiva = !!perfil;
+
+    // Redirige solo si realmente no hay sesión ni perfil guardado
+    if (!this.sesionActiva && !perfil) {
+      this.router.navigateByUrl('/inicio-sesion', { replaceUrl: true });
+    }
+  });
+  }
+
+
+  irAInicioSesion(): void {
+    this.router.navigate(['/inicio-sesion']);
   }
 
   ngOnDestroy() {
@@ -138,7 +155,7 @@ export class PerfilPage implements OnInit, OnDestroy {
           handler: () => {
             this.usuarioService.cerrarSesion();
             this.mostrarToast('Sesión cerrada correctamente', 'success');
-            // TODO: Redirigir a página de login cuando esté implementada
+            this.router.navigateByUrl('/inicio-sesion', { replaceUrl: true });
           }
         }
       ]

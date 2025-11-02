@@ -5,13 +5,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Perfil</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div *ngIf="perfil" class="perfil-contenido">
+  <div *ngIf="perfil; else sinSesion" class="perfil-contenido">
 
     <!-- Información Principal del Usuario -->
     <ion-card class="perfil-card">
@@ -123,6 +124,21 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+  <ng-template #sinSesion>
+    <div class="sin-sesion-container ion-text-center">
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="person-circle-outline" size="large" color="medium"></ion-icon>
+          <h2>¿Aún no has iniciado sesión?</h2>
+          <p>Accede a tu cuenta para ver tus compras y favoritos.</p>
+          <ion-button expand="block" color="primary" (click)="irAInicioSesion()">
+            Iniciar sesión
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
 
   <!-- Estado de carga -->
   <div *ngIf="!perfil" class="cargando">

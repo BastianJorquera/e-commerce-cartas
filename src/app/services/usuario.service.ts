@@ -63,39 +63,47 @@ export class UsuarioService {
 
   constructor(private historialService: HistorialService) {
     // El perfil se cargará combinando usuario + estadísticas del historial
+
+    const perfilGuardado = this.cargarDeStorage();
+    if (perfilGuardado) {
+      this.usuarioSubject.next(perfilGuardado);
+    }
   }
 
   // Obtener perfil del usuario (combina datos personales + estadísticas del historial)
   obtenerPerfil(): Observable<PerfilUsuario | null> {
-    return combineLatest([
-      this.historialService.obtenerHistorial()
-    ]).pipe(
-      map(([historial]) => {
-        if (!this.usuarioMock) return null;
+  // Si ya hay un perfil cargado (por localStorage o login), simplemente lo devuelve
+  if (this.usuarioSubject.value) {
+    return this.usuario$;
+  }
 
-        // Calcular estadísticas reales desde el historial
-        const estadisticas = this.historialService.obtenerEstadisticas();
-        const pedidosEntregados = historial.pedidos.filter(p => p.estado === 'Entregado');
+  // Si no hay perfil cargado, genera el mock por ahora
+  return combineLatest([
+    this.historialService.obtenerHistorial()
+  ]).pipe(
+    map(([historial]) => {
+      // Si no hay usuario mock, devuelve null
+      if (!this.usuarioMock) return null;
 
-        const estadisticasReales: EstadisticasUsuario = {
+      const estadisticas = this.historialService.obtenerEstadisticas();
+      const perfil: PerfilUsuario = {
+        usuario: this.usuarioMock,
+        estadisticas: {
           totalCompras: estadisticas.pedidosEntregados,
           totalGastado: estadisticas.totalGastado,
-          cartasFavoritas: 8, // TODO: Implementar sistema de favoritos real
+          cartasFavoritas: 8,
           fechaUltimaCompra: historial.ultimoPedido?.fecha
-        };
+        }
+      };
 
-        const perfil: PerfilUsuario = {
-          usuario: this.usuarioMock,
-          estadisticas: estadisticasReales
-        };
+      // Guarda y emite el perfil
+      this.usuarioSubject.next(perfil);
+      this.guardarEnStorage(perfil);
+      return perfil;
+    })
+  );
+}
 
-        // Actualizar el subject para mantener compatibilidad
-        this.usuarioSubject.next(perfil);
-
-        return perfil;
-      })
-    );
-  }
 
   // Actualizar información del usuario
   actualizarPerfil(datos: EditarPerfilData): Promise<boolean> {
@@ -150,10 +158,31 @@ export class UsuarioService {
     });
   }
 
+  //Simular inicio de sesión
+  iniciarSesion(): void {
+  // Crear estadísticas básicas (sin depender de llamadas asíncronas)
+  const estadisticas: EstadisticasUsuario = {
+    totalCompras: 3,
+    totalGastado: 59990,
+    cartasFavoritas: 8,
+    fechaUltimaCompra: new Date('2025-10-15')
+  };
+
+  const perfilSimulado: PerfilUsuario = {
+    usuario: this.usuarioMock,
+    estadisticas
+  };
+
+  this.usuarioSubject.next(perfilSimulado);
+  this.guardarEnStorage(perfilSimulado);
+}
+
+
   // Cerrar sesión
   cerrarSesion(): void {
     this.usuarioSubject.next(null);
-    localStorage.removeItem('usuario-perfil');
+    localStorage.removeItem('usuario-perfil'); //perfil local
+    localStorage.removeItem('token'); // JWT
   }
 
   // Verificar si hay usuario logueado

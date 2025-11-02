@@ -17,7 +17,7 @@ import {
   IonCardSubtitle,
   IonCardContent
 } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -48,7 +48,7 @@ export class CrearSesionPage implements OnInit {
 
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -60,14 +60,29 @@ export class CrearSesionPage implements OnInit {
   }
 
   register() {
-    if (this.registerForm.valid) {
-      console.log('Datos del formulario:', this.registerForm.value);
+  if (this.registerForm.valid) {
+    const { nombre, email, password, confirmPassword } = this.registerForm.value;
 
-      // Aquí en el futuro se llamará al servicio AuthService para crear el usuario
-      // y luego manejar el JWT cuando el backend esté listo.
-
-
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
     }
+
+    // Guardar usuario en localStorage
+    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    if (usuarios.some((u: any) => u.email === email)) {
+      alert('Ya existe un usuario con este correo');
+      return;
+    }
+
+    usuarios.push({ nombre, email, password });
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+    alert('Cuenta creada correctamente, ahora inicia sesión');
+
+    // Redirigir a la pantalla de inicio de sesión
+    this.router.navigateByUrl('/inicio-sesion');
+  }
   }
 }
 
