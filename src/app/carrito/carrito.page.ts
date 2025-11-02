@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { GlobalHeaderComponent } from '../shared/global-header/global-header.component';
 import {
   IonHeader,
   IonToolbar,
@@ -35,6 +36,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['carrito.page.scss'],
   standalone: true,
   imports: [
+    GlobalHeaderComponent,
     CommonModule,
     IonHeader,
     IonToolbar,

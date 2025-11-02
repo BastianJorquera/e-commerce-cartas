@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GlobalHeaderComponent } from '../shared/global-header/global-header.component';
 import {
   IonHeader,
   IonToolbar,
@@ -40,6 +41,7 @@ import { PerfilUsuario } from '../models/interfaces/usuario.interface';
   styleUrls: ['perfil.page.scss'],
   standalone: true,
   imports: [
+    GlobalHeaderComponent,
     CommonModule,
     IonHeader,
     IonToolbar,

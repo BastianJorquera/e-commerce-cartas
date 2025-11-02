@@ -1,37 +1,277 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+// TEMA GLOBAL PARA CARD HUNTERS E-COMMERCE
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+// Variables de colores del tema
+:root {
+  --ch-header-bg: #4a4a4a;
+  --ch-header-text: #ffffff;
+  --ch-logo-color: #d4af37;
+  --ch-search-bg: #e8e8e8;
+  --ch-content-bg: #f5f5f5;
+  --ch-card-bg: #ffffff;
+  --ch-accent: #d4af37;
+  --ch-text-primary: #333333;
+  --ch-text-secondary: #666666;
+  --ch-border: #dddddd;
+}
 
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+// HEADER GLOBAL PARA TODAS LAS PÁGINAS
+.custom-global-header {
+  --background: var(--ch-header-bg) !important;
+  --color: var(--ch-header-text) !important;
+  height: 80px;
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 100%;
+  }
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+  .logo-section {
+    display: flex;
+    align-items: center;
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+    .logo {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .search-section {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 20px;
+
+    .search-container {
+      position: relative;
+      width: 100%;
+
+      .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        font-size: 18px;
+        z-index: 2;
+      }
+
+      .search-input {
+        width: 100%;
+        height: 45px;
+        border: none;
+        border-radius: 25px;
+        background: var(--ch-search-bg);
+        padding: 0 20px 0 45px;
+        font-size: 16px;
+        color: #333;
+
+        &::placeholder {
+          color: #666;
+        }
+
+        &:focus {
+          outline: none;
+          background: #f0f0f0;
+        }
+      }
+    }
+  }
+
+  .actions-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .cart-btn {
+      --color: var(--ch-header-text);
+      --background: transparent;
+
+      .cart-icon {
+        font-size: 28px;
+        color: var(--ch-header-text);
+      }
+    }
+
+    .user-profile {
+      .profile-btn {
+        --background: var(--ch-accent);
+        --color: var(--ch-header-bg);
+        --border-radius: 50%;
+        width: 45px;
+        height: 45px;
+
+        .profile-icon {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}
+
+// CONTENIDO GLOBAL
+.global-content {
+  --background: var(--ch-content-bg) !important;
+
+  .content-wrapper {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// TABS GLOBALES
+ion-tab-bar {
+  --background: var(--ch-header-bg) !important;
+  --color: var(--ch-header-text) !important;
+  --color-selected: var(--ch-accent) !important;
+  border-top: 1px solid #333;
+
+  ion-tab-button {
+    --color: #cccccc;
+    --color-selected: var(--ch-accent);
+    --ripple-color: var(--ch-accent);
+
+    &.tab-selected {
+      --color: var(--ch-accent);
+
+      ion-icon {
+        color: var(--ch-accent);
+      }
+
+      ion-label {
+        color: var(--ch-accent);
+        font-weight: 600;
+      }
+    }
+
+    ion-icon {
+      color: #cccccc;
+      transition: color 0.3s ease;
+    }
+
+    ion-label {
+      color: #cccccc;
+      font-size: 12px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+  }
+}
+
+// CARDS GLOBALES
+.global-card {
+  background: var(--ch-card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// BOTONES GLOBALES
+.btn-primary {
+  --background: var(--ch-accent);
+  --background-hover: #b8941f;
+  --color: var(--ch-header-bg);
+  --border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-secondary {
+  --background: var(--ch-header-bg);
+  --background-hover: #3a3a3a;
+  --color: var(--ch-header-text);
+  --border-radius: 8px;
+  font-weight: 500;
+}
+
+// TÍTULOS GLOBALES
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  background: var(--ch-card-bg);
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .section-icon {
+    font-size: 24px;
+    color: var(--ch-text-primary);
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ch-text-primary);
+    margin: 0;
+  }
+}
+
+// RESPONSIVE GLOBAL
+@media (max-width: 768px) {
+  .custom-global-header {
+    .header-container {
+      padding: 0 15px;
+    }
+
+    .logo-section .logo {
+      height: 45px;
+    }
+
+    .search-section {
+      margin: 0 15px;
+
+      .search-container .search-input {
+        height: 40px;
+        font-size: 14px;
+      }
+    }
+
+    .actions-section {
+      gap: 10px;
+
+      .cart-btn .cart-icon {
+        font-size: 24px;
+      }
+
+      .user-profile .profile-btn {
+        width: 40px;
+        height: 40px;
+
+        .profile-icon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .content-wrapper {
+    padding: 15px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-global-header {
+    .search-section {
+      display: none;
+    }
+
+    .logo-section {
+      flex: 1;
+
+      .logo {
+        height: 40px;
+      }
+    }
+  }
+}

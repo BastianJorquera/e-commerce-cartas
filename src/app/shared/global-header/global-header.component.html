@@ -1,0 +1,35 @@
+<ion-header [translucent]="false">
+  <ion-toolbar class="custom-global-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <div class="logo-section">
+        <img src="assets/images/logo.png" alt="Card Hunters" class="logo">
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="search-section" *ngIf="showSearch">
+        <div class="search-container">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+          <input
+            type="text"
+            [placeholder]="searchPlaceholder"
+            class="search-input"
+            (input)="onSearchInput($event)">
+        </div>
+      </div>
+
+      <!-- Carrito e icono de usuario -->
+      <div class="actions-section">
+        <ion-button fill="clear" class="cart-btn" (click)="onCartClick()">
+          <ion-icon name="bag-outline" class="cart-icon"></ion-icon>
+        </ion-button>
+
+        <div class="user-profile">
+          <ion-button fill="clear" class="profile-btn" (click)="onProfileClick()">
+            <ion-icon name="person-outline" class="profile-icon"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

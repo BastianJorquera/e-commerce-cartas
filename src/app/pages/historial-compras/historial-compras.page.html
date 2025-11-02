@@ -1,40 +1,6 @@
-<ion-header [translucent]="false">
-  <ion-toolbar class="custom-toolbar">
-    <div class="header-container">
-      <!-- Logo -->
-      <div class="logo-section">
-        <img src="assets/images/logo.png" alt="Card Hunters" class="logo">
-        <div class="logo-text">
-          <span class="logo-title">CARD</span>
-          <span class="logo-subtitle">HUNTERS</span>
-        </div>
-      </div>
+<app-global-header [showSearch]="true" searchPlaceholder="Búsqueda"></app-global-header>
 
-      <!-- Barra de búsqueda -->
-      <div class="search-section">
-        <div class="search-container">
-          <ion-icon name="search-outline" class="search-icon"></ion-icon>
-          <input type="text" placeholder="Búsqueda" class="search-input">
-        </div>
-      </div>
-
-      <!-- Carrito e icono de usuario -->
-      <div class="actions-section">
-        <ion-button fill="clear" class="cart-btn" routerLink="/tabs/carrito">
-          <ion-icon name="bag-outline" class="cart-icon"></ion-icon>
-        </ion-button>
-
-        <div class="user-profile">
-          <ion-button fill="clear" class="profile-btn">
-            <ion-icon name="person-outline" class="profile-icon"></ion-icon>
-          </ion-button>
-        </div>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="historial-content">
+<ion-content [fullscreen]="true" class="global-content">
   <div class="content-wrapper">
 
     <!-- Título de la sección -->
@@ -47,7 +13,7 @@
     <div class="pedidos-lista" *ngIf="!cargando">
       <div
         *ngFor="let pedido of pedidosFiltrados; trackBy: trackByPedido"
-        class="pedido-card">
+        class="pedido-card global-card">
 
         <!-- Imagen del producto principal -->
         <div class="product-image-container">
